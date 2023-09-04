@@ -1,0 +1,3 @@
+[submodule "TensorFlow-GPU"]
+	path = TensorFlow-GPU
+	url = https://github.com/anasLearn/TensorFlow-GPU.git
