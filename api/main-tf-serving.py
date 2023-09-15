@@ -1,14 +1,17 @@
 from fastapi import FastAPI, UploadFile, File
 import uvicorn
 import numpy as np
-import tensorflow as tf
+import requests
 
 from utils import read_file_as_image
 
 app = FastAPI()
 
 model_verison = 6
-MODEL = tf.keras.models.load_model(f"../training/saved-models/models/{model_verison}")
+
+# TF serving endpoint
+tf_serving_endpoint = "http://localhost:8605/v1/models/potato-model:predict"
+
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]  # As defined in the training notebook
 
 
@@ -35,10 +38,16 @@ async def predict(
     # Let's make the image into a batch
     img_batch = np.expand_dims(image, 0)
 
-    predictions = MODEL.predict(img_batch)
+    # The payload of the post request to TF-serving API must be as follow
+    json_data = {
+        "instances": img_batch.tolist()
+    }
 
-    predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
-    confidence = np.max(predictions[0])
+    response = requests.post(tf_serving_endpoint, json=json_data)
+    prediction = response.json()["predictions"][0]
+
+    predicted_class = CLASS_NAMES[np.argmax(prediction)]
+    confidence = np.max(prediction)
     return {
         'class': predicted_class,
         'confidence': float(confidence)
