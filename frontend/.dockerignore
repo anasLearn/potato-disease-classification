@@ -1,0 +1,4 @@
+.gitignore
+READMe.md
+Dockerfile
+.dockerignore
