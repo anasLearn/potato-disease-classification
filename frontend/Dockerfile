@@ -1,5 +1,5 @@
 # we will use the latest version of node available from the Docker Hub.
-FROM node:20.6.1
+FROM node:10.24.1
 
 # Create app directory, where your app will live its lifetime.
 WORKDIR /usr/src/app
@@ -9,9 +9,8 @@ WORKDIR /usr/src/app
 COPY . ./
 
 # Installing the packages while the image is building
-RUN npm install
-RUN npm fund
-RUN npm audit fix --force
+RUN npm install --from-lock-json
+RUN npm audit fix
 
 # Bundle app source, i.e. copying all your required files for the app
 # Note: files & folders inside .dockerignore will not be copied.
