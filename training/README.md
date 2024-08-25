@@ -60,3 +60,61 @@ These videos will provide you with a comprehensive foundation in CNNs, which are
 Our CNN training process involved fine-tuning model hyperparameters, optimizing loss functions, and leveraging data augmentation techniques to achieve the best results. The trained CNN is capable of recognizing and classifying the patterns within our dataset accurately.
 
 By employing CNNs and following best practices in training, we ensured our model's effectiveness in solving our specific task.
+
+### Building and Training the Model
+
+The model is built in a way that it contains the follwing layers:
+* Preprocessing layers: resize, rescale and data augmentation.
+* Convultional Network: Convolutional layer followed by pooling layer, repeated multiple times. Activation function is `relu`.
+* Flattening layer: A layer that the output of the convolutional network.
+* Dense netowrk: With activation function relu.
+* Output layer: A dense network with activation function `softmax` to emulate probability.
+
+#### Example
+
+```Python
+input_shape = (BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, CHANNELS)
+n_classes = len(class_names)
+
+model = tf.keras.Sequential([
+    # Preprocessing
+    resize_and_rescale,
+    data_augmentation,
+
+    # Convolutional Network
+    layers.Conv2D(filters=32, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+
+    layers.Conv2D(filters=64, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Conv2D(filters=64, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Conv2D(filters=64, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+    layers.Conv2D(filters=64, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
+
+    # Flattening the output of the convolutional network
+    layers.Flatten(),
+
+    # Dense neural network to make calculations
+    layers.Dense(64, activation='relu'),
+
+    # Output layer
+    layers.Dense(n_classes, activation='softmax'),
+])
+
+model.build(input_shape=input_shape)
+```
+
+#### Training the model
+
+The model is trained for a number of epochs (e.g. 50 epochs). After each epoch, the model is validated against the cross validation dataset to improve its accuracy.
+
+### Testing the model
+
+After the training, the model is tested against the test set that was created beforehand and wasn't involved in the training.
+
+### Saving the model
+
+The model can be saved to be deployed later with `model.save()`
