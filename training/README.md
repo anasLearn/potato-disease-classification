@@ -118,3 +118,9 @@ After the training, the model is tested against the test set that was created be
 ### Saving the model
 
 The model can be saved to be deployed later with `model.save()`
+
+### Further evaluation of the model
+
+In the Jupyter notebook [wrong-predictions](./wrong-predictions.ipynb), we calculated the number of images that were incorrectly predicted by a model we load.
+
+We also generated a confusion matrix. And calculated the precision, recall and F1-score.
