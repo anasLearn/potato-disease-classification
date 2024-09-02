@@ -13,3 +13,9 @@
 **Explanation**: [link](./training/README.md)
 
 **Notebook**: [link](./training/training.ipynb)
+
+## Model API
+
+After training and saving the model, a REST API was developed, enabling the model to classify images submitted to it.
+
+**Explanation**: [link](./api/README.md)

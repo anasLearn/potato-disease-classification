@@ -1,10 +1,14 @@
+import os
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
 import requests
+from dotenv import load_dotenv
 
 from utils import read_file_as_image
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -21,10 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model_verison = 6
-
 # TF serving endpoint
-tf_serving_endpoint = "http://localhost:8605/v1/models/potato-model:predict"
+TF_SERVING_CONTAINER = os.environ.get("TF_SERVING_HOST")
+TF_SERVING_PORT = os.environ.get("TF_SERVING_PORT", default="8605")
+tf_serving_endpoint = f"http://{TF_SERVING_CONTAINER}:{TF_SERVING_PORT}/v1/models/potato-model:predict"  # This indicates the latest version
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]  # As defined in the training notebook
 

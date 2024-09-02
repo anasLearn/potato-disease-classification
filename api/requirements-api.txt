@@ -1,11 +1,7 @@
-tensorflow==2.13.0
-matplotlib
-jupyterlab
 fastapi
 uvicorn
 python-multipart
 pillow
-tensorflow-serving-api
 numpy
 requests
 python-dotenv

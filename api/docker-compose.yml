@@ -1,0 +1,11 @@
+services:
+  predict-api:
+    build:
+      context: .
+    image: predict-api-image
+    container_name: predict-api-container
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    restart: unless-stopped
